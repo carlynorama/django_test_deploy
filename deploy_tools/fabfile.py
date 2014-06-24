@@ -2,7 +2,7 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run
 import random
 
-REPO_URL = 'https://github.com/OUR_REPO'
+REPO_URL = 'https://github.com/carlynorama/django_test_deploy.git'
 PROJECT_NAME = 'superlists'
 
 def deploy():
