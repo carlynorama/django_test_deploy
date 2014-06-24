@@ -2,19 +2,24 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run
 import random
 
+
+
 REPO_URL = 'https://github.com/carlynorama/django_test_deploy.git'
-PROJECT_NAME = 'superlists'
 
 def deploy():
     site_folder = '/home/%s/sites/%s' % (env.user, env.host)
     source_folder = site_folder + '/source'
-    project_folder = '%s/%s' % (source_folder, PROJECT_NAME)
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
-    #_update_settings(source_folder, env.host)
-    #_update_virtualenv(source_folder)
-    #_update_static_files(source_folder)
-    #_update_database(source_folder)
+    _update_settings(source_folder, env.host)
+    _update_virtualenv(source_folder)
+    _update_static_files(source_folder)
+    _update_database(source_folder)
+
+def prepare_deploy():
+    #local("./manage.py test my_app")
+    local("git add -p && git commit")
+    local("git push")
     
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('database', 'static', 'virtualenv', 'source'):
@@ -29,13 +34,13 @@ def _get_latest_source(source_folder):
     run('cd %s && git reset --hard %s' % (source_folder, current_commit))
     
 def _update_settings(source_folder, site_name):
-    settings_path = project_folder + '/settings.py'
+    settings_path = source_folder + '/superlists/settings.py'
     sed(settings_path, "DEBUG = True", "DEBUG = False")  
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
         'ALLOWED_HOSTS = ["%s"]' % (site_name,)
     )
-    secret_key_file = project_folder + '/secret_key.py'
+    secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
@@ -51,11 +56,13 @@ def _update_virtualenv(source_folder):
     ))
     
 def _update_static_files(source_folder):
-    run('cd %s && ../virtualenv/bin/python3 manage.py collectstatic --noinput' % ( # 1
+    #removed ref to python3
+    run('cd %s && ../virtualenv/bin/python manage.py collectstatic --noinput' % ( # 1
         source_folder,
     ))
 
 def _update_database(source_folder):
-    run('cd %s && ../virtualenv/bin/python3 manage.py migrate --noinput' % (
+    #removed ref to python3
+    run('cd %s && ../virtualenv/bin/python manage.py migrate --noinput' % (
         source_folder,
     ))
