@@ -1,0 +1,6 @@
+Django==https://github.com/django/django/archive/stable/1.7.x.zip
+geopy==0.99
+oauthlib==0.6.3
+requests==2.2.1
+requests-oauthlib==0.4.1
+tweepy==2.3.0
