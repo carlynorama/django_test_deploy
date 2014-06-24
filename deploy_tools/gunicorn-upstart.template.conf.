@@ -1,0 +1,27 @@
+description "Gunicorn daemon for SITENAME devserver"
+#lives at /etc/init/
+
+start on (local-filesystems and net-device-up IFACE=eth0)
+stop on runlevel [!12345]
+
+#from TDD book
+#start on net-device-up
+#stop on shutdown
+
+# If the process quits unexpectadly trigger a respawn
+respawn
+
+setuid SERVER_USERNAME
+setgid SERVER_USERNAME
+chdir /home/SERVER_USERNAME/sites/SITENAME/source
+
+exec ../virtualenv/bin/gunicorn \
+    --bind unix:/tmp/SITENAME.gunicorn.socket PROJECTNAME.wsgi:application
+
+#from digitalocean    
+#exec gunicorn \
+#    --name=django_project \
+#    --pythonpath=django_project \
+#    --bind=0.0.0.0:9000 \
+#    --config /etc/gunicorn.d/gunicorn.py \
+#    django_project.wsgi:application
