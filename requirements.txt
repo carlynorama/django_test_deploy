@@ -4,3 +4,4 @@ oauthlib
 requests
 requests-oauthlib
 tweepy
+gunicorn
