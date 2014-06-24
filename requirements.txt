@@ -3,5 +3,5 @@ geopy
 oauthlib
 requests
 requests-oauthlib
-tweepy
+#tweepy
 gunicorn
