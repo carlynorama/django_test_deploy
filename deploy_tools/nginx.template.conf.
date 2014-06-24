@@ -25,7 +25,7 @@ server {
 
     # your Django project's static files - amend as required
     location /static {
-        alias /home/SERVER_USERNAME/sites/crashlacma-dev.mooo.com/static; 
+        alias /home/SERVER_USERNAME/sites/SITENAME/static; 
     }
 
     location / {
