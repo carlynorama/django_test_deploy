@@ -4,7 +4,7 @@ Provisioning a new site
 ## Required packages:
 
 * nginx
-* Python 3 or Python 2.7.6 depending
+* Python 3
 * Git
 * pip
 * virtualenv
@@ -19,6 +19,7 @@ eg, on Ubuntu:
 * see nginx.template.conf
 * replace SITENAME with, eg, staging.my-domain.com
 * replace SERVER_USERNAME with the username/groupname for the sites
+* replace PROJECT_NAME with the name of the django project
 
 ## Upstart Job
 

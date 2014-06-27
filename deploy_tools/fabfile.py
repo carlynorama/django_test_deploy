@@ -57,12 +57,12 @@ def _update_virtualenv(source_folder):
     
 def _update_static_files(source_folder):
     #removed ref to python3
-    run('cd %s && ../virtualenv/bin/python manage.py collectstatic --noinput' % ( # 1
+    run('cd %s && ../virtualenv/bin/python3 manage.py collectstatic --noinput' % ( # 1
         source_folder,
     ))
 
 def _update_database(source_folder):
     #removed ref to python3
-    run('cd %s && ../virtualenv/bin/python manage.py migrate --noinput' % (
+    run('cd %s && ../virtualenv/bin/python3 manage.py migrate --noinput' % (
         source_folder,
     ))
